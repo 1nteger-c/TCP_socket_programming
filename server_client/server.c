@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <sys/socket.h> // contain socket, bind, listen, accept, send, recv
 #include <stdlib.h>     // contain atoi, malloc
-#include <arpa/inet.h> // contain inet_aton
 #include <netinet/in.h> // contain struct sockaddr_in
 #include <unistd.h>  // close
 #include <string.h> // contain memset
@@ -9,11 +8,11 @@
 typedef struct sockaddr_in sock; // define "sock" as "struct sockaddr_in"
 void usage()
 {
-    printf("Input Format : ./server [IP] [port]"); // print how to use this program
+    printf("Input Format : ./server [port]"); // print how to use this program
 }
 int main(int argc, char **argv)
 {
-    if (argc != 3) // if the parameter format is not available 
+    if (argc != 2) // if the parameter format is not available 
     {
         usage();
         return -1;
@@ -37,15 +36,15 @@ int main(int argc, char **argv)
     memset(server, '\x00', sizeof(sock));           
     server->sin_family = AF_INET;   // define domain as IPv4 by using "AF_INET"
     /*
-    we got server's IP address by parameter 1 (argv[1])
-    we can change IP, ascii to numeric by using inet_aton
+    set server's IP automatically by using htonl(INADDR_ANY)
     */
-    inet_aton(argv[1], &(server->sin_addr));        
+    server->sin_addr.s_addr = htonl(INADDR_ANY);
+//    inet_aton(argv[1], &(server->sin_addr));        
     /*
-    we got server's PORT by parameter 2 (argv[2])
+    we got server's PORT by parameter 1 (argv[1])
     we can change PORT, ascii to int by using htons
     */
-    server->sin_port = htons(atoi(argv[2]));        
+    server->sin_port = htons(atoi(argv[1]));        
     /*
     we must bind socket and process. 
     Then process can use socket to communicate with others.

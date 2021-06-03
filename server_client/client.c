@@ -1,9 +1,10 @@
 #include <stdio.h>
-#include <sys/socket.h>
-#include <stdlib.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <string.h>
+#include <sys/socket.h> // contain socket, bind, listen, accept, send, recv
+#include <stdlib.h>     // contain atoi, malloc
+#include <arpa/inet.h> // contain inet_aton
+#include <netinet/in.h> // contain struct sockaddr_in
+#include <unistd.h>  // close
+#include <string.h> // contain memset
 
 typedef struct sockaddr_in sock; // define "sock" as "struct sockaddr_in"
 
